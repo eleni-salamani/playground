@@ -1,0 +1,12 @@
+name: "Test windows docker image on linux"
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if VM supports virtualization
+        run: |
+          ls -l /dev/kvm
+          kvm-ok
