@@ -8,5 +8,6 @@ jobs:
     steps:
       - name: Enable virtualization
         run: |
+          cat /etc/apt/sources.list
           ls -l /dev/kvm
           kvm-ok
