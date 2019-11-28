@@ -6,7 +6,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if VM supports virtualization
+      - name: Enable virtualization
         run: |
+          sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+          sudo systemctl enable libvirt-bin
           ls -l /dev/kvm
           kvm-ok
