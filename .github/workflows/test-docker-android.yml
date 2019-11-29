@@ -1,0 +1,11 @@
+name: "Test docker android containers with amd architecture"
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Start container
+        run: |
+          docker run --privileged -d -p 6080:6080 -p 5554:5554 -p 5555:5555 -e DEVICE="Samsung Galaxy S10" --name android-container budtmo/docker-android-x86-10.0
