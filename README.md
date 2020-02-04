@@ -1,2 +1,2 @@
-# test-windows-docker
-Sample project to test windows docker
+# playground
+Sample project, serves as playground to try out different things
