@@ -1,0 +1,26 @@
+name: "B2B Execute Postman collection using newman CLI on self-hosted VM - DEMO 2"
+
+on: [push]
+
+jobs:
+  newman-cli-api:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master
+      - name: "Run newman CLI"
+        run: |
+          mkdir -p newman-reports-from-api
+          export POSTMAN_COLLECTION="https://api.getpostman.com/collections/${{ secrets.POSTMAN_COLLECTION_CREATE_USER }}?apikey=${{ secrets.POSTMAN_API_KEY }}"
+          export POSTMAN_ENVIRONMENT="https://api.getpostman.com/environments/${{ secrets.POSTMAN_ENVIRONMENT_QA }}?apikey=${{ secrets.POSTMAN_API_KEY }}"
+          newman run \
+            "$POSTMAN_COLLECTION" \
+            -e "$POSTMAN_ENVIRONMENT" \
+            --ignore-redirects \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export newman-reports-from-api \
+            --reporter-htmlextra-darkTheme
+      - uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: newman-reports-from-api
+          path: newman-reports-from-api
