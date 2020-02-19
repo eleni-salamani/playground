@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Test sample notification
-        uses: efcloud/el-msteams-post-action@add-first-version-of-action-tests-for-pr
+        uses: efcloud/el-msteams-post-action@feature/add-first-version-of-action-tests-for-pr
         with:
           job_status: ${{ job.status }}
           event_id: "testing custom action from sample repo"
