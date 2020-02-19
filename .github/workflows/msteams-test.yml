@@ -1,0 +1,17 @@
+name: "Send notifications to MS Teams channel"
+
+on: [push]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Test sample notification
+        uses: efcloud/el-msteams-post-action@add-first-version-of-action-tests-for-pr
+        with:
+          job_status: ${{ job.status }}
+          event_id: "testing custom action from sample repo"
+          details: "Triggered from custom action repo"
+          webhook_url: ${{ secrets.MS_WEBHOOK_URL }}
