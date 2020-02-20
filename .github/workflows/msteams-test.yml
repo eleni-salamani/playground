@@ -12,6 +12,6 @@ jobs:
         uses: efcloud/el-msteams-post-action@feature/add-first-version-of-action
         with:
           job_status: ${{ job.status }}
-          event_id: "testing custom action from sample repo"
+          event_id: "testing custom action from sample repo - test"
           details: "Triggered from custom action repo testing feature/add-first-version-of-action"
           webhook_url: ${{ secrets.MS_WEBHOOK_URL }}
