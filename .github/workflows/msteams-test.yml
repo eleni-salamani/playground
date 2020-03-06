@@ -15,6 +15,7 @@ jobs:
           cat ${GITHUB_EVENT_PATH}
       - name: Test sample notification
         uses: efcloud/el-msteams-post-action@feature/add-color-on-jobStatus
+        if: always()
         with:
           job_status: ${{ job.status }}
           event_id: "testing custom action from sample repo - test"
