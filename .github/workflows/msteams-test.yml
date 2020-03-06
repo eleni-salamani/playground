@@ -13,6 +13,7 @@ jobs:
           ls -ltr
           pwd
           cat ${GITHUB_EVENT_PATH}
+          sleep 3000
       - name: Test sample notification
         uses: efcloud/el-msteams-post-action@feature/add-color-on-jobStatus
         if: always()
