@@ -8,8 +8,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Test
+        run: |
+          ls -ltr
+          pwd
+          cat ${GITHUB_EVENT_PATH}
       - name: Test sample notification
-        uses: efcloud/el-msteams-post-action@feature/add-first-version-of-action
+        uses: efcloud/el-msteams-post-action@feature/add-color-on-jobStatus
         with:
           job_status: ${{ job.status }}
           event_id: "testing custom action from sample repo - test"
