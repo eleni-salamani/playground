@@ -1,0 +1,18 @@
+name: release
+
+on: [push]
+
+jobs:
+  release_to_tf:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Release school-lite
+        run: |
+          VERSION="0.0.1"
+          curl -X POST https://api.github.com/repos/eleni-salamani/el-b2b-environments/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.BOT_TOKEN }} \
+          --data '{"event_type": "school-lite-release", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "package_version": "${VERSION}" }}'
+
