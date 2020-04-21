@@ -1,4 +1,4 @@
-name: release24
+name: release25
 
 on: [push]
 
