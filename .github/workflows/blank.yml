@@ -11,7 +11,7 @@ jobs:
         run: |
           mkdir -p newman-reports-from-api
           export POSTMAN_COLLECTION="https://api.getpostman.com/collections/${{ secrets.POSTMAN_COLLECTION_CREATE_USER }}?apikey=${{ secrets.POSTMAN_API_KEY }}"
-          export POSTMAN_ENVIRONMENT="https://api.getpostman.com/environments/${{ secrets.POSTMAN_ENVIRONMENT_QA }}?apikey=${{ secrets.POSTMAN_API_KEY }}"
+          export POSTMAN_ENVIRONMENT="https://api.getpostman.com/environments/${{ secrets.POSTMAN_ENVIRONMENT_QA_EFCLOUD }}?apikey=${{ secrets.POSTMAN_API_KEY }}"
           newman run \
             "$POSTMAN_COLLECTION" \
             -e "$POSTMAN_ENVIRONMENT" \
