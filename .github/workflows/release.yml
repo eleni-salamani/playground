@@ -13,5 +13,5 @@ jobs:
           curl -X POST https://api.github.com/repos/eleni-salamani/el-b2b-environments/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.BOT_TOKEN }} \
-          --data '{"event_type": "school-lite-release", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "package_version": "'"${VERSION}"'" }}'
+          --data '{"event_type": "school_lite", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "package_version": "'"${VERSION}"'" }}'
 
