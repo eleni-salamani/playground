@@ -1,4 +1,4 @@
-name: release-116
+name: release-100-a
 
 on: [push]
 
@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Release school-lite
         run: |
-          VERSION="0.0.116"
+          VERSION="0.0.100"
           curl -X POST https://api.github.com/repos/eleni-salamani/el-b2b-environments/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.BOT_TOKEN }} \
