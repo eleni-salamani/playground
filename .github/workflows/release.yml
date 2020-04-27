@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Release school-lite
         run: |
-          VERSION="0.0.96"
+          VERSION="0.0.97"
           curl -X POST https://api.github.com/repos/eleni-salamani/el-b2b-environments/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.BOT_TOKEN }} \
