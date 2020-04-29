@@ -12,6 +12,7 @@ jobs:
           hostname
           pwd
           ls -ltr
+          node -v
           npm -v
           git version
           docker -v
