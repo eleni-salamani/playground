@@ -1,4 +1,4 @@
-name: "Tests on self-hosted runner"
+name: "Tests on self-hosted runner - test"
 
 on: [push]
 
