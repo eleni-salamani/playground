@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   simple-tests:
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux, x64, experiment]
     steps:
       - uses: actions/checkout@v2
       - name: "Simple linux utilities"
