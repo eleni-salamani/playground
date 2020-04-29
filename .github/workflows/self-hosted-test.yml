@@ -15,5 +15,5 @@ jobs:
           npm -v
           git version
           docker -v
-          newman -v
           whoami
+          newman -v
