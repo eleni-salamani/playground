@@ -18,4 +18,4 @@ jobs:
           docker -v
           whoami
           newman -v
-          cat /tmp/log_text.txt
+          cat /tmp/runner_details.txt
