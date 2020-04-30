@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   simple-tests:
-    runs-on: [self-hosted, linux, x64, experiment]
+    runs-on: [self-hosted, linux, x64, version1]
     steps:
       - uses: actions/checkout@v2
       - name: "Simple linux utilities"
@@ -18,3 +18,4 @@ jobs:
           docker -v
           whoami
           newman -v
+          cat /tmp/log_text.txt
