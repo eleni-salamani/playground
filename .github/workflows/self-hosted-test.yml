@@ -2,12 +2,12 @@ name: "Tests on self-hosted runner - test"
 
 on:
   schedule:
-    - cron: 30 7 * * MON,TUE
-    - cron: 0 8 * * MON
+    - cron: 40 7 * * MON,TUE
 
 jobs:
   simple-tests:
-    runs-on: [self-hosted, linux, x64, version1]
+    runs-on: ubuntu-latest
+#     runs-on: [self-hosted, linux, x64, version1]
     steps:
       - uses: actions/checkout@v2
       - name: "Simple linux utilities"
