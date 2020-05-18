@@ -2,7 +2,7 @@ name: "Tests on self-hosted runner - test"
 
 on:
   schedule:
-    - cron: 40 7 * * MON,TUE
+    - cron: 45 7 * * MON,TUE
 
 jobs:
   simple-tests:
