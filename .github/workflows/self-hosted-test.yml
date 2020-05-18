@@ -1,6 +1,9 @@
 name: "Tests on self-hosted runner - test"
 
-on: [push]
+on:
+  schedule:
+    - cron: 30 7 * * MON,TUE
+    - cron: 0 8 * * MON
 
 jobs:
   simple-tests:
