@@ -12,6 +12,8 @@ jobs:
       BOT_TOKEN: ${{ secrets.EL_B2B_BOT_TOKEN }}
       BOT_USERNAME: ${{ secrets.EL_B2B_BOT_USERNAME }}
       BOT_EMAIL: ${{ secrets.EL_B2B_BOT_EMAIL }}
+      
+    if: "!contains(github.event.registry_package.name, 'SNAPSHOT') && github.event.registry_package.package_type == 'docker'"
 
     steps:
       - name: get package information
