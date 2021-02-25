@@ -1,0 +1,21 @@
+name: Update image version in terraform on package release
+
+on:
+  registry_package:
+    types: [published]
+
+jobs:
+  release-dispatch:
+    name:  release-dispatch
+    runs-on: ubuntu-latest
+    env:
+      BOT_TOKEN: ${{ secrets.EL_B2B_BOT_TOKEN }}
+      BOT_USERNAME: ${{ secrets.EL_B2B_BOT_USERNAME }}
+      BOT_EMAIL: ${{ secrets.EL_B2B_BOT_EMAIL }}
+
+    steps:
+      - name: get package information
+        run: |
+          echo "Published package: ${{ github.event.registry_package.package.name }}"
+          echo "Published version: ${{ github.event.registry_package.package_version.version }}"
+          echo "Package type: ${{ github.event.registry_package.package.package_type }}"
