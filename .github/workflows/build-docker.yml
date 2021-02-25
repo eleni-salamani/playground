@@ -1,0 +1,21 @@
+name: Build and push Docker image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish-image:
+    runs-on: ubuntu-latest
+    env:
+      BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
+      BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Docker login
+        run: echo ${BOT_PASSWORD} | docker login -u ${BOT_USERNAME} --password-stdin docker.pkg.github.com
+      - name: Build and publish docker image
+        run: |
+          TAG=$(date +"%d.%m.%Y")
+          docker build .
+          docker images
