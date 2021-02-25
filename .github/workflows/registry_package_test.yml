@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: get package information
         run: |
-          echo "${{ toJson(github) }}"
-          echo "Published package: ${{ github.event.registry_package.package.name }}"
+          echo "${{ toJson(github.event.registry_package) }}"
+          echo "Published package: ${{ github.event.registry_package.name }}"
           echo "Published version: ${{ github.event.registry_package.package_version.version }}"
-          echo "Package type: ${{ github.event.registry_package.package.package_type }}"
+          echo "Package type: ${{ github.event.registry_package.package_type }}"
