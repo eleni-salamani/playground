@@ -17,7 +17,7 @@ jobs:
       - name: Build and publish docker image
         run: |
           TAG=$(date +"%d.%m.%Y")
-          docker build --build-arg -f Dockerfile -t elena-test:$TAG
+          docker build --build-arg -f Dockerfile -t elena-test:$TAG .
           docker tag elena-test:$TAG docker.pkg.github.com/eleni-salamani/playground/elena-test:$TAG
           docker images
 
