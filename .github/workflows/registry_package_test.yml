@@ -21,3 +21,11 @@ jobs:
           echo "Published package: ${{ github.event.registry_package.name }}"
           echo "Published version: ${{ github.event.registry_package.package_version.version }}"
           echo "Package type: ${{ github.event.registry_package.package_type }}"
+          
+      - name: trigger update of terraform scripts
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ env.BOT_TOKEN }}
+          repository: eleni-salamani/playground
+          event-type: docker_release
+          client-payload: '{ "repository": "${{ env.PACKAGE_NAME }}","package_version": "${{ env.PACKAGE_VERSION }}" }'
