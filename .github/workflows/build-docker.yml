@@ -16,7 +16,7 @@ jobs:
         run: echo ${BOT_PASSWORD} | docker login -u ${BOT_USERNAME} --password-stdin docker.pkg.github.com
       - name: Build and publish docker image
         run: |
-          TAG=$(date +"%d.%m.%Y")-snapshot
+          TAG=$(date +"%d.%m.%Y")
           docker build -f Dockerfile -t elena-test:$TAG .
           docker tag elena-test:$TAG docker.pkg.github.com/eleni-salamani/playground/elena-test:$TAG
           docker images
