@@ -21,6 +21,8 @@ jobs:
           echo "Published package: ${{ github.event.registry_package.name }}"
           echo "Published version: ${{ github.event.registry_package.package_version.version }}"
           echo "Package type: ${{ github.event.registry_package.package_type }}"
+          echo "PACKAGE_NAME=${{ github.event.registry_package.name }}" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=${{ github.event.registry_package.package_version.version }}" >> $GITHUB_ENV
           
       - name: trigger update of terraform scripts
         uses: peter-evans/repository-dispatch@v1
