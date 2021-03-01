@@ -9,7 +9,7 @@ jobs:
     name:  release-dispatch
     runs-on: ubuntu-latest
     env:
-      BOT_TOKEN: ${{ secrets.EL_B2B_BOT_TOKEN }}
+      BOT_TOKEN: ${{ secrets.MY_TOKEN }}
       BOT_USERNAME: ${{ secrets.EL_B2B_BOT_USERNAME }}
       BOT_EMAIL: ${{ secrets.EL_B2B_BOT_EMAIL }}
       
