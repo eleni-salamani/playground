@@ -1,0 +1,15 @@
+name: Check docker_release incoming event
+
+on:
+  repository_dispatch:
+    types: [docker_release]
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Event Information
+        run: |
+          echo "${{ toJSON(github.event) }}"
