@@ -13,3 +13,89 @@ jobs:
       - name: Event Information
         run: |
           echo "${{ toJSON(github.event) }}"
+      - name: Event Information
+        if: github.event.action !== 'docker_release'
+        run: |
+          if [[ "${{ github.event.client_payload.repository }}" = "" || "${{ github.event.client_payload.package_version }}" = "" ]]
+          then
+            echo "Invalid payload received"
+            exit 1
+          fi
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+          echo "New version '${{ github.event.client_payload.package_version }}'"
+
+      - name: Event Information
+        if: github.event.action == 'docker_release'
+        run: |
+          if [[ "${{ github.event.client_payload.repository }}" = "" || "${{ github.event.client_payload.package_name }}" = "" || "${{ github.event.client_payload.package_version }}" = "" ]]
+          then
+            echo "Invalid payload received"
+            exit 1
+          fi
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+          echo "Package name '${{ github.event.client_payload.package_name }}'"
+          echo "New version '${{ github.event.client_payload.package_version }}'"
+
+#      fetch full history so that rebase works at later stage
+      - name: pull code (with full history)
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{env.BOT_TOKEN }}
+
+      - name: set up scripts
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          chmod -R +x .scripts
+
+      - name: check out release branch
+        run: |
+          ./.scripts/gitUtilities.sh config_git "${{ secrets.EL_B2B_BOT_USERNAME }}" "${{ secrets.EL_B2B_BOT_EMAIL }}"
+          . ./.scripts/gitUtilities.sh checkout_release_branch . "update-package-versions-${{ matrix.environment }}" "true"
+
+      - name: update school_lite chart versions
+        if: github.event.action == 'school_lite'
+        run: ./.scripts/updateB2BChartVersions.sh "${{ matrix.environment }}" "${{ github.event.client_payload.package_version }}"
+
+      - name: update school_core chart versions
+        if: github.event.action == 'school_core'
+        run: ./.scripts/updatePackageVersion.sh "${{ matrix.environment }}" "helm" "${{ github.event.action }}" "${{ github.event.client_payload.package_version }}"
+
+      - name: update docker image versions
+        if: github.event.action == 'docker_release'
+        run: ./.scripts/updatePackageVersion.sh "${{ matrix.environment }}" "docker" "${{ github.event.client_payload.package_name }}" "${{ github.event.client_payload.package_version }}"
+
+      - name: commit and push changes to release branch
+        run: |
+          chmod -R +x .scripts
+          ./.scripts/gitUtilities.sh push_all_to_current_branch "New ${{ github.event.action }} ${{ github.event.client_payload.repository }} v.${{ github.event.client_payload.package_version }}"
+          echo "current_branch=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+
+      - name: rebase to master
+        run: |
+          chmod -R +x .scripts
+          ./.scripts/gitUtilities.sh rebase_current_branch_to_other
+
+      - name: create PR, if not present
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "${{ env.current_branch }}"
+          destination_branch: "master"
+          pr_title: "Update package versions for ${{ matrix.environment }}"
+          pr_template: ".github/release_pr_template.md"
+          pr_reviewer: "/b2b"
+          pr_draft: false
+          github_token: ${{ env.BOT_TOKEN }}
+
+      - uses: tzkhan/pr-update-action@v2
+          with:
+            repo-token: "${{ env.BOT_TOKEN }}"
+            base-branch-regex: "master"
+            head-branch-regex: "${{ env.current_branch }}"
+            body-template: |
+              ------------ Version added ------------
+              Deploy version ${{ github.event.client_payload.package_version }} for ${{ github.event.client_payload.repository }}
+              https://github.com/${{ github.event.client_payload.repository }}/releases/tag/v${{ github.event.client_payload.package_version }}
+              ---------------------------------------
+            body-update-action: 'suffix'
+            body-uppercase-base-match: false
