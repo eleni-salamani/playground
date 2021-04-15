@@ -1,1 +1,2 @@
 Test 1  - trying out stuff in branch B_A
+editing file in branch B_B
