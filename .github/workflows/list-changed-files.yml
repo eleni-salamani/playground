@@ -19,7 +19,7 @@ jobs:
       with:
         format: 'json'
 
-	  - name: Parse changed files
-	    id: changeset
-	    run: echo ${{ steps.files.outputs.all }}
+    - name: Parse changed files
+      id: changeset
+      run: echo ${{ steps.files.outputs.all }}
 
