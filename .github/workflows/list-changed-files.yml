@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  cd:
-    name: cd
+  ls-files:
+    name: ls-files
     runs-on: ubuntu-latest
 
     steps:
