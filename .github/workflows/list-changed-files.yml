@@ -1,4 +1,4 @@
-name: cd
+name: ls-files
 
 on:
   pull_request:
