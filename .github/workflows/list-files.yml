@@ -56,7 +56,8 @@ jobs:
              lineArray=(${line//:/ })
              echo "module is ${lineArray[0]}"
              echo "dependencies are ${lineArray[1]}"
-             for dependency in ${lineArray[1]}; do
+             readarray -t dependencies <<<"$(echo ${lineArray[1]})"
+             for dependency in ${dependencies[@]}; do
                echo "each dependency"
                echo $dependency
              done
