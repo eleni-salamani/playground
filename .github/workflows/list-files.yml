@@ -37,8 +37,9 @@ jobs:
                 echo "Do something with this ${changed_file}."
                 path=$(echo "$changed_file" | xargs -n1 dirname)
                 echo "path IS $path"
+                array+=($path)
               done
-          array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
+          echo "checking array"
           echo $array
           cat dependencies.txt
 #          echo ${{ steps.files.outputs.all }}
@@ -58,4 +59,5 @@ jobs:
 #          UNIQUE=($(printf "%s\n" "${owner[@]}" | sort -u | tr '\n' ' '))
 #                root_path=$(echo "$path" | xargs -n1 dirname)
 #                echo "root_path IS $root_path"
+#               array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
 
