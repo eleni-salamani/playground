@@ -31,5 +31,16 @@ jobs:
 #
       - name: Parse changed files
         id: changeset
-        run: echo ${{ steps.files.outputs.all }}
+        run: |
+          echo ${{ steps.files.outputs.all }}
+          for CHANGE in $(echo ${{ steps.files.outputs.all }})
+          do
+          (
+            echo "CHANGE IS $CHANGE"
+            PATH=$(echo $file | xargs dirname)
+            echo "PATH IS $PATH"
+          )
+          done
+#          CHANGED_FILE=$(echo ${{ steps.files.outputs.all }})
+#          UNIQUE=($(printf "%s\n" "${owner[@]}" | sort -u | tr '\n' ' '))
 
