@@ -14,16 +14,13 @@ jobs:
     if: github.event.pull_request.merged == true
 
     steps:
-
       - name: pull code
         uses: actions/checkout@v1
-
       - name: Get list/paths of changed files
         id: files
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'json'
-
       - name: Parse changed files
         id: changeset
         run: echo ${{ steps.files.outputs.all }}
