@@ -41,7 +41,7 @@ jobs:
           do
               echo "$count"
               echo "${changed_files[$count]}"
-              array[$count]=$(echo "$changed_file" | xargs -n1 dirname)
+              array[$count]=$(echo "${changed_files[$count]}" | xargs -n1 dirname)
               count=$(( $count + 1 ))
           done
           echo $array
