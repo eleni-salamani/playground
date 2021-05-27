@@ -37,7 +37,7 @@ jobs:
           do
           (
             echo "CHANGE IS $CHANGE"
-            PATH=$(echo $file | xargs -n1 dirname)
+            PATH=$(echo "$file" | xargs -n1 dirname)
             echo "PATH IS $PATH"
           )
           done
