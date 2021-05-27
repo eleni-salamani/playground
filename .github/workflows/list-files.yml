@@ -33,20 +33,17 @@ jobs:
         id: changeset
         run: |
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-          length=${#changed_files[@]}
-          echo "length is $length"
-          echo "BEFORE"
-          printf '%s\n' "${changed_files[@]}"
 
           for changed_file in ${changed_files[@]}; do
              echo "Do something with this ${changed_file}."
              path=$(echo "$changed_file" | xargs -n1 dirname)
              echo "path IS $path"
-             array+=($path)
+             paths+=($path)
            done
-          echo "AFTER"
-          printf '%s\n' "${array[@]}"
-          echo "${#array[@]}"
+
+          echo "Paths array"
+          printf '%s\n' "${paths[@]}"
+          echo "${#paths[@]}"
 #          while [ $count -lt $length ]
 #          do
 #              echo "$count"
@@ -107,4 +104,8 @@ jobs:
 #               echo $array
 #               array[$count]=$(echo "${changed_files[$count]}" | xargs -n1 dirname)
 #               count=0
+#               length=${#changed_files[@]}
+#               echo "length is $length"
+#               echo "BEFORE"
+#               printf '%s\n' "${changed_files[@]}"
 
