@@ -35,9 +35,7 @@ jobs:
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 
           for changed_file in ${changed_files[@]}; do
-             echo "Do something with this ${changed_file}."
              path=$(echo "$changed_file" | xargs -n1 dirname)
-             echo "path IS $path"
              paths+=($path)
            done
 
@@ -56,11 +54,9 @@ jobs:
              echo "$line" ;
              lineArray=(${line//:/ })
              echo "module is ${lineArray[0]}"
-             echo "dependencies are ${lineArray[1]}"
              dependencies=(${lineArray[1]//,/ })
              for dependency in ${dependencies[@]}; do
-               echo "each dependency"
-               echo $dependency
+               echo "dependency $dependency"
                if [[ "${unique_paths[@]}" =~ "${dependency}" ]]; then
                  echo "$dependency found in ${unique_paths[@]}"
                  changed_modules+=(${lineArray[0]})
