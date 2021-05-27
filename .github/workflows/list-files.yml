@@ -36,10 +36,6 @@ jobs:
            done
 
           unique_paths=($(printf "%s\n" "${paths[@]}" | sort -u | tr '\n' ' '))
-          echo "unique_paths array"
-          printf '%s\n' "${unique_paths[@]}"
-          echo "${#unique_paths[@]}"
-
           for unique_path in ${unique_paths[@]}; do
             if [[ "${unique_path}" =~ ^\. ]]; then
               shared_modules+=(${unique_path})
@@ -49,26 +45,25 @@ jobs:
           done
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
-            echo "mode=all" >> $GITHUB_ENV
+            echo ::set-output name=mode::all
           else
-            echo ::set-output name=mode::"target"
-            echo "mode=target" >> $GITHUB_ENV
+            echo ::set-output name=mode::target
           fi
 
-          echo "standalone_modules=${standalone_modules[@]}" >> $GITHUB_ENV
+          echo ::set-output name=standalone_modules::"${standalone_modules[@]}"
 
       - name: Parse changed files
-        if: env.mode == 'all'
+        if: steps.changeset.outputs.mode == 'all'
         run: |
-          echo ${{ env.mode }}
+          echo ${{ steps.changeset.outputs.mode }}
 
       - name: Parse changed files
-        if: env.mode == 'target'
+        if: steps.changeset.outputs.mode == 'target'
         run: |
-          echo ${{ env.mode }}
-          printf '%s\n' "${{ env.standalone_modules }}"
+          echo ${{ steps.changeset.outputs.mode }}
+          printf '%s\n' "${{ steps.changeset.outputs.standalone_modules }}"
 
-          for changed_module in "${{ env.standalone_modules }}"; do
+          for changed_module in "${{ steps.changeset.outputs.standalone_modules }}"; do
               cd $changed_module
               pwd
               ls -ltr
@@ -235,6 +230,10 @@ jobs:
 #          echo "Paths array"
 #          printf '%s\n' "${paths[@]}"
 #          echo "${#paths[@]}"
+#
+#               echo "unique_paths array"
+#               printf '%s\n' "${unique_paths[@]}"
+#               echo "${#unique_paths[@]}"
 
 
 
