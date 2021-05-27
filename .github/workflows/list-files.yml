@@ -36,7 +36,6 @@ jobs:
           length=${#changed_files[@]}
           echo "length is $length"
           count=0
-          array=()
           while [ $count -lt $length ]
           do
               echo "$count"
