@@ -33,9 +33,9 @@ jobs:
         id: changeset
         run: |
           echo ${{ steps.files.outputs.all }}
-          echo ${{ steps.files.outputs.all }} | jq -c '.[]'
-          cat ${HOME}/files.json
-          for CHANGE in $(echo ${{ steps.files.outputs.all }} | jq -c '.[]')
+          changes="'"$(echo ${${{ steps.files.outputs.all }}})"'"
+          echo "$changes" | jq -c '.[]'
+          for CHANGE in $(echo "$changes" | jq -c '.[]')
           do
           (
             echo "CHANGE IS $CHANGE"
