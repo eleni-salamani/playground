@@ -34,9 +34,9 @@ jobs:
         run: |
           files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           echo $files
-#          for i in "${!foo[@]}"; do
-#            printf "%s\t%s\n" "$i" "${foo[$i]}"
-#          done
+          for i in "${!files[@]}"; do
+            printf "%s\t%s\n" "$i" "${files[$i]}"
+          done
 #
 #
 #          array=()
