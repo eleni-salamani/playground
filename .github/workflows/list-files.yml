@@ -41,7 +41,7 @@ jobs:
           echo "${#unique_paths[@]}"
 
           for unique_path in ${unique_paths[@]}; do
-            if [[ "${unique_path}" =~ "^." ]]; then
+            if [[ "${unique_path}" =~ '^.' ]]; then
               shared_modules+=(${unique_path})
             else
               standalone_modules+=(${unique_path})
