@@ -75,6 +75,11 @@ jobs:
           printf '%s\n' "${changed_modules[@]}"
           echo "${#changed_modules[@]}"
 
+          unique_changed_modules=($(printf "%s\n" "${changed_modules[@]}" | sort -u | tr '\n' ' '))
+          echo "unique_changed_modules array"
+          printf '%s\n' "${unique_changed_modules[@]}"
+          echo "${#unique_changed_modules[@]}"
+
 
 #          while [ $count -lt $length ]
 #          do
