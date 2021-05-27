@@ -32,19 +32,23 @@ jobs:
       - name: Parse changed files
         id: changeset
         run: |
-          echo ${{ steps.files.outputs.all }}
-          changes="'"${{ steps.files.outputs.all }}"'"
-          echo "$changes"
-          echo "'""${{ steps.files.outputs.all }}""'"
-          echo "$changes" | jq -c '.[]'
-          for CHANGE in $(echo "$changes" | jq -c '.[]')
-          do
-          (
-            echo "CHANGE IS $CHANGE"
-            PATH=$(echo "$CHANGE" | xargs -n1 dirname)
-            echo "PATH IS $PATH"
-          )
-          done
+          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+              for changed_file in ${changed_files[@]}; do
+                echo "Do something with this ${changed_file}."
+              done
+#          echo ${{ steps.files.outputs.all }}
+#          changes="'"${{ steps.files.outputs.all }}"'"
+#          echo "$changes"
+#          echo "'""${{ steps.files.outputs.all }}""'"
+#          echo "$changes" | jq -c '.[]'
+#          for CHANGE in $(echo "$changes" | jq -c '.[]')
+#          do
+#          (
+#            echo "CHANGE IS $CHANGE"
+#            PATH=$(echo "$CHANGE" | xargs -n1 dirname)
+#            echo "PATH IS $PATH"
+#          )
+#          done
 #          CHANGED_FILE=$(echo ${{ steps.files.outputs.all }})
 #          UNIQUE=($(printf "%s\n" "${owner[@]}" | sort -u | tr '\n' ' '))
 
