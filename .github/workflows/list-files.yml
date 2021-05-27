@@ -42,10 +42,11 @@ jobs:
               echo "${changed_files[$count]}"
               count=$(( $count + 1 ))
           done
+
           array=()
-          for c in $changed_files; do
+          while IFS='' read -r $c; do
               array+=( "$c" )
-          done
+          done < <($changed_files)
           echo ${#array[@]}
 
 #          for i in "${!changed_files[@]}"; do
