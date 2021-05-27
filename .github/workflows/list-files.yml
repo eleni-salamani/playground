@@ -63,13 +63,17 @@ jobs:
                echo $dependency
                if [[ "${unique_paths[@]}" =~ "${dependency}" ]]; then
                  echo "$dependency found in ${unique_paths[@]}"
-                 echo "module is ${lineArray[0]}"
+                 changed_modules+=(${lineArray[0]})
                else
                  echo "$dependency NOT found in ${unique_paths[@]}"
                fi
              done
           echo "#########"
           done < dependencies.txt
+
+          echo "changed_modules array"
+          printf '%s\n' "${changed_modules[@]}"
+          echo "${#changed_modules[@]}"
 
 
 #          while [ $count -lt $length ]
