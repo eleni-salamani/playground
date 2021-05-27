@@ -96,17 +96,17 @@ jobs:
 
           echo ::set-output name=changed_modules::"${unique_changed_modules[@]}"
 
-    - name: Parse changed files
-      if: steps.plan.outputs.mode == "all"
-      run: |
-        echo ${{ steps.plan.outputs.mode }}
-        printf '%s\n' "${unique_changed_modules[@]}"
+      - name: Parse changed files
+        if: steps.plan.outputs.mode == "all"
+        run: |
+          echo ${{ steps.plan.outputs.mode }}
+          printf '%s\n' "${unique_changed_modules[@]}"
 
-    - name: Parse changed files
-      if: steps.plan.outputs.mode == "target"
-      run: |
-        echo ${{ steps.plan.outputs.mode }}
-        printf '%s\n' "${unique_changed_modules[@]}"
+      - name: Parse changed files
+        if: steps.plan.outputs.mode == "target"
+        run: |
+          echo ${{ steps.plan.outputs.mode }}
+          printf '%s\n' "${unique_changed_modules[@]}"
 
 
 #          while [ $count -lt $length ]
