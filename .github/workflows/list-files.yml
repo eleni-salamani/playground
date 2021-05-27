@@ -40,14 +40,19 @@ jobs:
           do
               echo "$count"
               echo "${changed_files[$count]}"
+              changed_files[$count]=$(echo "$changed_files[$count]" | xargs -n1 dirname)
               count=$(( $count + 1 ))
           done
 
-          array=()
-          while IFS='' read -r $c; do
-              array+=( "$c" )
-          done < <(echo $changed_files)
-          echo ${#array[@]}
+          echo "AFTER"
+          echo $changed_files
+          echo "${#changed_files[@]}"
+
+#          array=()
+#          while IFS='' read -r $c; do
+#              array+=( "$c" )
+#          done < <(echo $changed_files)
+#          echo ${#array[@]}
 
 #          for i in "${!changed_files[@]}"; do
 #            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
