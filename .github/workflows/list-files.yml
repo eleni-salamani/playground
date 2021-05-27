@@ -35,6 +35,8 @@ jobs:
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           length=${#changed_files[@]}
           echo "length is $length"
+          echo "BEFORE"
+          echo $changed_files
           count=0
           while [ $count -lt $length ]
           do
