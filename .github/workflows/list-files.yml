@@ -2,16 +2,16 @@ name: ls-files
 
 on:
   pull_request:
-    branches:
-      - master
-    types: [closed]
+#    branches:
+#      - master
+#    types: [closed]
 
 jobs:
   ls-files:
     name: ls-files
     runs-on: ubuntu-latest
 
-    if: github.event.pull_request.merged == true
+#    if: github.event.pull_request.merged == true
 
     steps:
       - name: pull code
@@ -41,7 +41,7 @@ jobs:
           echo "${#unique_paths[@]}"
 
           for unique_path in ${unique_paths[@]}; do
-            if [[ "${unique_path}" =~ "^." ]]; then
+            if [[ "${unique_path}" =~ '^\.' ]]; then
               shared_modules+=(${unique_path})
             else
               standalone_modules+=(${unique_path})
