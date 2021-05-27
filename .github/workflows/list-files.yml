@@ -33,12 +33,14 @@ jobs:
         id: changeset
         run: |
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          echo "BEFORE"
           echo $changed_files
           for i in "${!changed_files[@]}"; do
             printf "%s\t%s\n" "$i" "${changed_files[$i]}"
-            array+=($i)
+            changed_files[$i]=$(echo "${changed_files[$i]}" | xargs -n1 dirname)
           done
-          echo $array
+          echo "AFTER"
+          echo $changed_files
 
 #
 #
