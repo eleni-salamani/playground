@@ -37,9 +37,10 @@ jobs:
                 echo "Do something with this ${changed_file}."
                 path=$(echo "$changed_file" | xargs -n1 dirname)
                 echo "path IS $path"
-                root_path=$(echo "$path" | xargs -n1 dirname)
-                echo "root_path IS $root_path"
+#                root_path=$(echo "$path" | xargs -n1 dirname)
+#                echo "root_path IS $root_path"
               done
+          cat dependencies.txt
 #          echo ${{ steps.files.outputs.all }}
 #          changes="'"${{ steps.files.outputs.all }}"'"
 #          echo "$changes"
