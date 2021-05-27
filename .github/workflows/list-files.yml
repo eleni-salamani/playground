@@ -89,21 +89,22 @@ jobs:
           echo "${#unique_changed_modules[@]}"
 
           if [[ "${unique_changed_modules[@]}" =~ "all" ]]; then
-            echo ::set-output name=mode::"all"
+            echo "mode=all" >> $GITHUB_ENV
           else
             echo ::set-output name=mode::"target"
+            echo "mode=target" >> $GITHUB_ENV
           fi
 
-          echo ::set-output name=changed_modules::"${unique_changed_modules[@]}"
+          echo "changed_modules=${unique_changed_modules[@]}" >> $GITHUB_ENV
 
       - name: Parse changed files
-        if: steps.changeset.outputs.mode == "all"
+        if: env.mode == 'all'
         run: |
           echo ${{ steps.changeset.outputs.mode }}
           printf '%s\n' "${unique_changed_modules[@]}"
 
       - name: Parse changed files
-        if: steps.changeset.outputs.mode == "target"
+        if: env.mode == "target"
         run: |
           echo ${{ steps.changeset.outputs.mode }}
           printf '%s\n' "${unique_changed_modules[@]}"
