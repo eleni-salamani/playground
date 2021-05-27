@@ -40,80 +40,132 @@ jobs:
           printf '%s\n' "${unique_paths[@]}"
           echo "${#unique_paths[@]}"
 
-           echo "#### Keep the repositories as they are ####"
-            for unique_path in ${unique_paths[@]}; do
-              if [[ "${unique_path}" =~ "repositories/" ]]; then
-                echo "Found repositories path ${unique_path}"
-                changed_modules+=(${unique_path})
-              else
-                new_unique_paths+=(${unique_path})
-              fi
-           done
+          for unique_path in ${unique_paths[@]}; do
+            if [[ "${unique_path}" =~ "^." ]]; then
+              shared_modules+=(${unique_path})
+              break ## we can exit the moment a shared module is found
+            else
+              standalone_modules+=(${unique_path})
+            fi
+         done
 
-           echo "changed_modules initial array"
-           printf '%s\n' "${changed_modules[@]}"
-           echo "${#changed_modules[@]}"
-
-           echo "new_unique_paths array"
-           printf '%s\n' "${new_unique_paths[@]}"
-           echo "${#new_unique_paths[@]}"
-
-          echo "#### Check which modules need to be updated based on paths ####"
-
-          while read -r line;
-          do
-             echo "#########"
-             echo "$line" ;
-             lineArray=(${line//:/ })
-             echo "module is ${lineArray[0]}"
-             dependencies=(${lineArray[1]//,/ })
-             for dependency in ${dependencies[@]}; do
-               echo "dependency $dependency"
-               if [[ "${new_unique_paths[@]}" =~ "${dependency}" ]]; then
-                 echo "$dependency found in ${new_unique_paths[@]}"
-                 changed_modules+=(${lineArray[0]})
-               else
-                 echo "$dependency NOT found in ${new_unique_paths[@]}"
-               fi
-             done
-          echo "#########"
-          done < dependencies.txt
-
-          echo "changed_modules array"
-          printf '%s\n' "${changed_modules[@]}"
-          echo "${#changed_modules[@]}"
-
-          unique_changed_modules=($(printf "%s\n" "${changed_modules[@]}" | sort -u | tr '\n' ' '))
-          echo "## unique_changed_modules array ##"
-          printf '%s\n' "${unique_changed_modules[@]}"
-          echo "${#unique_changed_modules[@]}"
-
-          if [[ "${unique_changed_modules[@]}" =~ "all" ]]; then
+          if [[ "${#shared_modules[@]}" -gt 0 ]]; then
             echo "mode=all" >> $GITHUB_ENV
           else
             echo ::set-output name=mode::"target"
             echo "mode=target" >> $GITHUB_ENV
           fi
 
-          echo "changed_modules=${unique_changed_modules[@]}" >> $GITHUB_ENV
+          echo "standalone_modules=${standalone_modules[@]}" >> $GITHUB_ENV
 
       - name: Parse changed files
         if: env.mode == 'all'
         run: |
           echo ${{ env.mode }}
-          printf '%s\n' "${{ env.changed_modules }}"
 
       - name: Parse changed files
         if: env.mode == 'target'
         run: |
           echo ${{ env.mode }}
-          printf '%s\n' "${{ env.changed_modules }}"
+          printf '%s\n' "${{ env.standalone_modules }}"
 
-          for changed_module in "${{ env.changed_modules }}"; do
+          for changed_module in "${{ env.standalone_modules }}"; do
               cd $changed_module
               pwd
               ls -ltr
           done
+
+#      - name: Parse changed files
+#        id: changeset
+#        run: |
+#          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#
+#          echo "#### Keep only the unique paths from the changed filepaths ####"
+#
+#          for changed_file in ${changed_files[@]}; do
+#             path=$(echo "$changed_file" | xargs -n1 dirname)
+#             paths+=($path)
+#           done
+#
+#          unique_paths=($(printf "%s\n" "${paths[@]}" | sort -u | tr '\n' ' '))
+#          echo "unique_paths array"
+#          printf '%s\n' "${unique_paths[@]}"
+#          echo "${#unique_paths[@]}"
+#
+#           echo "#### Keep the repositories as they are ####"
+#            for unique_path in ${unique_paths[@]}; do
+#              if [[ "${unique_path}" =~ "repositories/" ]]; then
+#                echo "Found repositories path ${unique_path}"
+#                changed_modules+=(${unique_path})
+#              else
+#                new_unique_paths+=(${unique_path})
+#              fi
+#           done
+#
+#           echo "changed_modules initial array"
+#           printf '%s\n' "${changed_modules[@]}"
+#           echo "${#changed_modules[@]}"
+#
+#           echo "new_unique_paths array"
+#           printf '%s\n' "${new_unique_paths[@]}"
+#           echo "${#new_unique_paths[@]}"
+#
+#          echo "#### Check which modules need to be updated based on paths ####"
+#
+#          while read -r line;
+#          do
+#             echo "#########"
+#             echo "$line" ;
+#             lineArray=(${line//:/ })
+#             echo "module is ${lineArray[0]}"
+#             dependencies=(${lineArray[1]//,/ })
+#             for dependency in ${dependencies[@]}; do
+#               echo "dependency $dependency"
+#               if [[ "${new_unique_paths[@]}" =~ "${dependency}" ]]; then
+#                 echo "$dependency found in ${new_unique_paths[@]}"
+#                 changed_modules+=(${lineArray[0]})
+#               else
+#                 echo "$dependency NOT found in ${new_unique_paths[@]}"
+#               fi
+#             done
+#          echo "#########"
+#          done < dependencies.txt
+#
+#          echo "changed_modules array"
+#          printf '%s\n' "${changed_modules[@]}"
+#          echo "${#changed_modules[@]}"
+#
+#          unique_changed_modules=($(printf "%s\n" "${changed_modules[@]}" | sort -u | tr '\n' ' '))
+#          echo "## unique_changed_modules array ##"
+#          printf '%s\n' "${unique_changed_modules[@]}"
+#          echo "${#unique_changed_modules[@]}"
+#
+#          if [[ "${unique_changed_modules[@]}" =~ "all" ]]; then
+#            echo "mode=all" >> $GITHUB_ENV
+#          else
+#            echo ::set-output name=mode::"target"
+#            echo "mode=target" >> $GITHUB_ENV
+#          fi
+#
+#          echo "changed_modules=${unique_changed_modules[@]}" >> $GITHUB_ENV
+#
+#      - name: Parse changed files
+#        if: env.mode == 'all'
+#        run: |
+#          echo ${{ env.mode }}
+#          printf '%s\n' "${{ env.changed_modules }}"
+#
+#      - name: Parse changed files
+#        if: env.mode == 'target'
+#        run: |
+#          echo ${{ env.mode }}
+#          printf '%s\n' "${{ env.changed_modules }}"
+#
+#          for changed_module in "${{ env.changed_modules }}"; do
+#              cd $changed_module
+#              pwd
+#              ls -ltr
+#          done
 
 
 #          while [ $count -lt $length ]
