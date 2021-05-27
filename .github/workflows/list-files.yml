@@ -100,14 +100,14 @@ jobs:
       - name: Parse changed files
         if: env.mode == 'all'
         run: |
-          echo ${{ steps.changeset.outputs.mode }}
-          printf '%s\n' "${unique_changed_modules[@]}"
+          echo ${{ env.mode }}
+          printf '%s\n' "${{ env.changed_modules }}"
 
       - name: Parse changed files
         if: env.mode == "target"
         run: |
-          echo ${{ steps.changeset.outputs.mode }}
-          printf '%s\n' "${unique_changed_modules[@]}"
+          echo ${{ env.mode }}
+          printf '%s\n' "${{ env.changed_modules }}"
 
 
 #          while [ $count -lt $length ]
