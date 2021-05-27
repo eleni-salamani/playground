@@ -33,7 +33,7 @@ jobs:
         id: changeset
         run: |
           echo ${{ steps.files.outputs.all }}
-          changes="'"$(echo ${${{ steps.files.outputs.all }}})"'"
+          changes="'"${{ steps.files.outputs.all }}"'"
           echo "$changes" | jq -c '.[]'
           for CHANGE in $(echo "$changes" | jq -c '.[]')
           do
