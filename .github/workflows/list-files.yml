@@ -36,7 +36,10 @@ jobs:
           echo $files
           for i in "${!files[@]}"; do
             printf "%s\t%s\n" "$i" "${files[$i]}"
+            array+=($i)
           done
+          echo $array
+
 #
 #
 #          array=()
