@@ -34,19 +34,41 @@ jobs:
         run: |
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 
+          echo "#### Keep only the unique paths from the changed filepaths ####"
+
           for changed_file in ${changed_files[@]}; do
              path=$(echo "$changed_file" | xargs -n1 dirname)
              paths+=($path)
            done
 
-          echo "Paths array"
-          printf '%s\n' "${paths[@]}"
-          echo "${#paths[@]}"
+#          echo "Paths array"
+#          printf '%s\n' "${paths[@]}"
+#          echo "${#paths[@]}"
 
           unique_paths=($(printf "%s\n" "${paths[@]}" | sort -u | tr '\n' ' '))
           echo "unique_paths array"
           printf '%s\n' "${unique_paths[@]}"
           echo "${#unique_paths[@]}"
+
+          echo "#### Keep the repositories as they are ####"
+          for unique_path in ${unique_paths[@]}; do
+               if [[ "${unique_path}" =~ "repositories/" ]]; then
+                 echo "Found repositories path ${unique_path}"
+                 changed_modules+=(${unique_path})
+               else
+                 new_unique_paths+=(${unique_path})
+               fi
+          done
+
+          echo "changed_modules initial array"
+          printf '%s\n' "${changed_modules[@]}"
+          echo "${#changed_modules[@]}"
+
+          echo "new_unique_paths array"
+          printf '%s\n' "${new_unique_paths[@]}"
+          echo "${#new_unique_paths[@]}"
+
+          echo "#### Check which modules need to be updated based on paths ####"
 
           while read -r line;
           do
@@ -72,7 +94,7 @@ jobs:
           echo "${#changed_modules[@]}"
 
           unique_changed_modules=($(printf "%s\n" "${changed_modules[@]}" | sort -u | tr '\n' ' '))
-          echo "unique_changed_modules array"
+          echo "## unique_changed_modules array ##"
           printf '%s\n' "${unique_changed_modules[@]}"
           echo "${#unique_changed_modules[@]}"
 
