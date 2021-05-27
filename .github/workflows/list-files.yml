@@ -109,6 +109,12 @@ jobs:
           echo ${{ env.mode }}
           printf '%s\n' "${{ env.changed_modules }}"
 
+          for changed_module in "${{ env.changed_modules }}"; do
+              cd $changed_module
+              pwd
+              ls -ltr
+          done
+
 
 #          while [ $count -lt $length ]
 #          do
