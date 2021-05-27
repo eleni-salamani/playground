@@ -46,7 +46,7 @@ jobs:
             else
               standalone_modules+=(${unique_path})
             fi
-         done
+          done
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
             echo "mode=all" >> $GITHUB_ENV
