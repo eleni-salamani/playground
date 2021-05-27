@@ -1,4 +1,4 @@
-repositories:["repositories",".modules/repository",".module/repository-v2",".templates",".secrets",".github"]
-runners:["runners",".modules/runner",".secrets",".github"]
-teams:["teams",".modules/team",".github"]
-users:["users",".secrets",".github"]
+repositories:repositories,.modules/repository,.module/repository-v2,.templates,.secrets,.github
+runners:runners,.modules/runner,.secrets,.github
+teams:teams,.modules/team,.github
+users:users,.secrets,.github
