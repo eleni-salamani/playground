@@ -43,7 +43,7 @@ jobs:
           for unique_path in ${unique_paths[@]}; do
             if [[ "${unique_path}" =~ "^." ]]; then
               shared_modules+=(${unique_path})
-              break ## we can exit the moment a shared module is found
+              break
             else
               standalone_modules+=(${unique_path})
             fi
