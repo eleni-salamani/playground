@@ -38,6 +38,8 @@ jobs:
                 path=$(echo "$changed_file" | xargs -n1 dirname)
                 echo "path IS $path"
               done
+          array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
+          echo $array
           cat dependencies.txt
 #          echo ${{ steps.files.outputs.all }}
 #          changes="'"${{ steps.files.outputs.all }}"'"
