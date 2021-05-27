@@ -33,11 +33,12 @@ jobs:
         id: changeset
         run: |
           echo ${{ steps.files.outputs.all }}
+          cat ${HOME}/files.json
           for CHANGE in $(echo ${{ steps.files.outputs.all }})
           do
           (
             echo "CHANGE IS $CHANGE"
-            PATH=$(dirname "$CHANGE")
+            PATH=$(echo "$CHANGE" | xargs -n1 dirname)
             echo "PATH IS $PATH"
           )
           done
