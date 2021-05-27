@@ -33,6 +33,8 @@ jobs:
         id: changeset
         run: |
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          length=${#changed_files[@]}
+          echo "length is $length"
           echo "BEFORE"
           echo $changed_files
           for i in "${!changed_files[@]}"; do
