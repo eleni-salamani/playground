@@ -44,6 +44,13 @@ jobs:
           echo "Paths array"
           printf '%s\n' "${paths[@]}"
           echo "${#paths[@]}"
+
+          unique_paths=($(printf "%s\n" "${paths[@]}" | sort -u | tr '\n' ' '))
+          echo "unique_paths array"
+          printf '%s\n' "${unique_paths[@]}"
+          echo "${#unique_paths[@]}"
+
+
 #          while [ $count -lt $length ]
 #          do
 #              echo "$count"
