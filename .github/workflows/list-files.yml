@@ -32,10 +32,10 @@ jobs:
       - name: Parse changed files
         id: changeset
         run: |
-          files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-          echo $files
-          for i in "${files[@]}"; do
-            printf "%s\t%s\n" "$i" "${files[$i]}"
+          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          echo $changed_files
+          for i in "${!changed_files[@]}"; do
+            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
             array[$i]="$i"
           done
           echo $array
@@ -72,4 +72,5 @@ jobs:
 #                root_path=$(echo "$path" | xargs -n1 dirname)
 #                echo "root_path IS $root_path"
 #               array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
+#               files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 
