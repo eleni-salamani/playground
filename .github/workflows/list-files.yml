@@ -37,7 +37,7 @@ jobs:
           do
           (
             echo "CHANGE IS $CHANGE"
-            PATH=$(dirname "$file")
+            PATH=$(dirname "$CHANGE")
             echo "PATH IS $PATH"
           )
           done
