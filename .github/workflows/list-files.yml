@@ -2,25 +2,33 @@ name: ls-files
 
 on:
   pull_request:
-    branches:
-      - master
-    types: [closed]
+#    branches:
+#      - master
+#    types: [closed]
 
 jobs:
   ls-files:
     name: ls-files
     runs-on: ubuntu-latest
-    
-    if: github.event.pull_request.merged == true
+
+#    if: github.event.pull_request.merged == true
 
     steps:
       - name: pull code
         uses: actions/checkout@v1
-      - name: Get list/paths of changed files
+
+      - name:  Get list/paths of changed files
+        uses: lots0logs/gh-action-get-changed-files@2.1.4
         id: files
-        uses: jitterbit/get-changed-files@v1
         with:
-          format: 'json'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Get list/paths of changed files
+#        id: files
+#        uses: jitterbit/get-changed-files@v1
+#        with:
+#          format: 'json'
+#
       - name: Parse changed files
         id: changeset
         run: echo ${{ steps.files.outputs.all }}
