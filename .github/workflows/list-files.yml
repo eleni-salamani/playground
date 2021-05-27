@@ -36,7 +36,7 @@ jobs:
           echo $changed_files
           for i in "${!changed_files[@]}"; do
             printf "%s\t%s\n" "$i" "${changed_files[$i]}"
-            array[$i]="$i"
+            array+=($i)
           done
           echo $array
 
