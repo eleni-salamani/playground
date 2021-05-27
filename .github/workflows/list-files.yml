@@ -46,24 +46,6 @@ jobs:
           printf '%s\n' "${unique_paths[@]}"
           echo "${#unique_paths[@]}"
 
-          echo "#### Keep the repositories as they are ####"
-          for unique_path in ${unique_paths[@]}; do
-               if [[ "${unique_path}" =~ "repositories/" ]]; then
-                 echo "Found repositories path ${unique_path}"
-                 changed_modules+=(${unique_path})
-               else
-                 new_unique_paths+=(${unique_path})
-               fi
-          done
-
-          echo "changed_modules initial array"
-          printf '%s\n' "${changed_modules[@]}"
-          echo "${#changed_modules[@]}"
-
-          echo "new_unique_paths array"
-          printf '%s\n' "${new_unique_paths[@]}"
-          echo "${#new_unique_paths[@]}"
-
           echo "#### Check which modules need to be updated based on paths ####"
 
           while read -r line;
@@ -163,4 +145,23 @@ jobs:
 #          echo "Paths array"
 #          printf '%s\n' "${paths[@]}"
 #          echo "${#paths[@]}"
+
+
+#               echo "#### Keep the repositories as they are ####"
+#               for unique_path in ${unique_paths[@]}; do
+#               if [[ "${unique_path}" =~ "repositories/" ]]; then
+#               echo "Found repositories path ${unique_path}"
+#               changed_modules+=(${unique_path})
+#               else
+#               new_unique_paths+=(${unique_path})
+#               fi
+#               done
+#
+#               echo "changed_modules initial array"
+#               printf '%s\n' "${changed_modules[@]}"
+#               echo "${#changed_modules[@]}"
+#
+#               echo "new_unique_paths array"
+#               printf '%s\n' "${new_unique_paths[@]}"
+#               echo "${#new_unique_paths[@]}"
 
