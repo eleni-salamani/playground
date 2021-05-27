@@ -35,14 +35,20 @@ jobs:
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           length=${#changed_files[@]}
           echo "length is $length"
-          echo "BEFORE"
-          echo $changed_files
-          for i in "${!changed_files[@]}"; do
-            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
-            changed_files[$i]=$(echo "${changed_files[$i]}" | xargs -n1 dirname)
+          count=0
+          while [ $count -lt length ]
+          do
+              echo "$count"
+              echo "${changed_files[$count]}"
+              count=$(( $count + 1 ))
           done
-          echo "AFTER"
-          echo $changed_files
+
+#          for i in "${!changed_files[@]}"; do
+#            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
+#            changed_files[$i]=$(echo "${changed_files[$i]}" | xargs -n1 dirname)
+#          done
+#          echo "AFTER"
+#          echo $changed_files
 
 #
 #
@@ -77,4 +83,6 @@ jobs:
 #                echo "root_path IS $root_path"
 #               array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
 #               files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#               echo "BEFORE"
+#               echo $changed_files
 
