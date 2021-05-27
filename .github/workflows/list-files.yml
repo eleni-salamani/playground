@@ -23,12 +23,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Get list/paths of changed files
-#        id: files
-#        uses: jitterbit/get-changed-files@v1
-#        with:
-#          format: 'json'
-#
       - name: Parse changed files
         id: changeset
         run: |
@@ -93,6 +87,26 @@ jobs:
           echo "## unique_changed_modules array ##"
           printf '%s\n' "${unique_changed_modules[@]}"
           echo "${#unique_changed_modules[@]}"
+
+          if [[ "${unique_changed_modules[@]}" =~ "all" ]]; then
+            echo ::set-output name=mode::"all"
+          else
+            echo ::set-output name=mode::"target"
+          fi
+
+          echo ::set-output name=changed_modules::"${unique_changed_modules[@]}"
+
+    - name: Parse changed files
+      if: steps.plan.outputs.mode == "all"
+      run: |
+        echo ${{ steps.plan.outputs.mode }}
+        printf '%s\n' "${unique_changed_modules[@]}"
+
+    - name: Parse changed files
+      if: steps.plan.outputs.mode == "target"
+      run: |
+        echo ${{ steps.plan.outputs.mode }}
+        printf '%s\n' "${unique_changed_modules[@]}"
 
 
 #          while [ $count -lt $length ]
