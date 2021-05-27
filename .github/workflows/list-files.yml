@@ -40,10 +40,13 @@ jobs:
           do
               echo "$count"
               echo "${changed_files[$count]}"
-              array[$count]=$(echo "${changed_files[$count]}" | xargs -n1 dirname)
               count=$(( $count + 1 ))
           done
-          echo $array
+          array=()
+          for c in $changed_files; do
+              array+=( "$c" )
+          done
+          echo ${#array[@]}
 
 #          for i in "${!changed_files[@]}"; do
 #            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
@@ -87,4 +90,6 @@ jobs:
 #               files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 #               echo "BEFORE"
 #               echo $changed_files
+#               echo $array
+#               array[$count]=$(echo "${changed_files[$count]}" | xargs -n1 dirname)
 
