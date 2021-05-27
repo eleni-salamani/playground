@@ -53,6 +53,9 @@ jobs:
           while read -r line;
           do
              echo "$line" ;
+             lineArray=(${line//;/ })
+             echo "module is $lineArray[0]"
+             echo "dependencies are $lineArray[1]"
           done < dependencies.txt
 
 
