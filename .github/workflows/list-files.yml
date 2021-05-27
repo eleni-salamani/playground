@@ -46,7 +46,7 @@ jobs:
           array=()
           while IFS='' read -r $c; do
               array+=( "$c" )
-          done < <($changed_files)
+          done < <(echo $changed_files)
           echo ${#array[@]}
 
 #          for i in "${!changed_files[@]}"; do
