@@ -32,18 +32,25 @@ jobs:
       - name: Parse changed files
         id: changeset
         run: |
-          array=()
-          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-              for changed_file in ${changed_files[@]}; do
-                echo "Do something with this ${changed_file}."
-                path=$(echo "$changed_file" | xargs -n1 dirname)
-                echo "path IS $path"
-                array+=($path)
-              done
-          echo "checking array"
-          echo $array
-          cat dependencies.txt
-          echo "$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          echo $files
+#          for i in "${!foo[@]}"; do
+#            printf "%s\t%s\n" "$i" "${foo[$i]}"
+#          done
+#
+#
+#          array=()
+#          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#              for changed_file in ${changed_files[@]}; do
+#                echo "Do something with this ${changed_file}."
+#                path=$(echo "$changed_file" | xargs -n1 dirname)
+#                echo "path IS $path"
+#                array+=($path)
+#              done
+#          echo "checking array"
+#          echo $array
+#          cat dependencies.txt
+#          echo "$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 #          echo ${{ steps.files.outputs.all }}
 #          changes="'"${{ steps.files.outputs.all }}"'"
 #          echo "$changes"
