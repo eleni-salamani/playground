@@ -2,26 +2,143 @@ name: ls-files
 
 on:
   pull_request:
-    branches:
-      - master
-    types: [closed]
+#    branches:
+#      - master
+#    types: [closed]
 
 jobs:
   ls-files:
     name: ls-files
     runs-on: ubuntu-latest
-    
-    if: github.event.pull_request.merged == true
+
+#    if: github.event.pull_request.merged == true
 
     steps:
       - name: pull code
         uses: actions/checkout@v1
-      - name: Get list/paths of changed files
+
+      - name:  Get list/paths of changed files
+        uses: lots0logs/gh-action-get-changed-files@2.1.4
         id: files
-        uses: jitterbit/get-changed-files@v1
         with:
-          format: 'json'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Get list/paths of changed files
+#        id: files
+#        uses: jitterbit/get-changed-files@v1
+#        with:
+#          format: 'json'
+#
       - name: Parse changed files
         id: changeset
-        run: echo ${{ steps.files.outputs.all }}
+        run: |
+          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+
+          for changed_file in ${changed_files[@]}; do
+             path=$(echo "$changed_file" | xargs -n1 dirname)
+             paths+=($path)
+           done
+
+          echo "Paths array"
+          printf '%s\n' "${paths[@]}"
+          echo "${#paths[@]}"
+
+          unique_paths=($(printf "%s\n" "${paths[@]}" | sort -u | tr '\n' ' '))
+          echo "unique_paths array"
+          printf '%s\n' "${unique_paths[@]}"
+          echo "${#unique_paths[@]}"
+
+          while read -r line;
+          do
+             echo "#########"
+             echo "$line" ;
+             lineArray=(${line//:/ })
+             echo "module is ${lineArray[0]}"
+             dependencies=(${lineArray[1]//,/ })
+             for dependency in ${dependencies[@]}; do
+               echo "dependency $dependency"
+               if [[ "${unique_paths[@]}" =~ "${dependency}" ]]; then
+                 echo "$dependency found in ${unique_paths[@]}"
+                 changed_modules+=(${lineArray[0]})
+               else
+                 echo "$dependency NOT found in ${unique_paths[@]}"
+               fi
+             done
+          echo "#########"
+          done < dependencies.txt
+
+          echo "changed_modules array"
+          printf '%s\n' "${changed_modules[@]}"
+          echo "${#changed_modules[@]}"
+
+          unique_changed_modules=($(printf "%s\n" "${changed_modules[@]}" | sort -u | tr '\n' ' '))
+          echo "unique_changed_modules array"
+          printf '%s\n' "${unique_changed_modules[@]}"
+          echo "${#unique_changed_modules[@]}"
+
+
+#          while [ $count -lt $length ]
+#          do
+#              echo "$count"
+#              echo "${changed_files[$count]}"
+#              array+=( "$changed_files[$count]" )
+#              changed_files[$count]=$(echo "$changed_files[$count]" | xargs -n1 dirname)
+#              count=$(( $count + 1 ))
+#          done
+
+#          array=()
+#          while IFS='' read -r $c; do
+#              array+=( "$c" )
+#          done < <(echo $changed_files)
+#          echo ${#array[@]}
+
+#          for i in "${!changed_files[@]}"; do
+#            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
+#            changed_files[$i]=$(echo "${changed_files[$i]}" | xargs -n1 dirname)
+#          done
+#          echo "AFTER"
+#          echo $changed_files
+
+#
+#
+#          array=()
+#          readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#              for changed_file in ${changed_files[@]}; do
+#                echo "Do something with this ${changed_file}."
+#                path=$(echo "$changed_file" | xargs -n1 dirname)
+#                echo "path IS $path"
+#                array+=($path)
+#              done
+#          echo "checking array"
+#          echo $array
+#          cat dependencies.txt
+#          echo "$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#          echo ${{ steps.files.outputs.all }}
+#          changes="'"${{ steps.files.outputs.all }}"'"
+#          echo "$changes"
+#          echo "'""${{ steps.files.outputs.all }}""'"
+#          echo "$changes" | jq -c '.[]'
+#          for CHANGE in $(echo "$changes" | jq -c '.[]')
+#          do
+#          (
+#            echo "CHANGE IS $CHANGE"
+#            PATH=$(echo "$CHANGE" | xargs -n1 dirname)
+#            echo "PATH IS $PATH"
+#          )
+#          done
+#          CHANGED_FILE=$(echo ${{ steps.files.outputs.all }})
+#          UNIQUE=($(printf "%s\n" "${owner[@]}" | sort -u | tr '\n' ' '))
+#                root_path=$(echo "$path" | xargs -n1 dirname)
+#                echo "root_path IS $root_path"
+#               array=$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')
+#               files="$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+#               echo "BEFORE"
+#               echo $changed_files
+#               echo $array
+#               array[$count]=$(echo "${changed_files[$count]}" | xargs -n1 dirname)
+#               count=0
+#               length=${#changed_files[@]}
+#               echo "length is $length"
+#               echo "BEFORE"
+#               printf '%s\n' "${changed_files[@]}"
 
