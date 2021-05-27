@@ -63,6 +63,8 @@ jobs:
                if [[ "${unique_paths[@]}" =~ "${dependency}" ]]; then
                  echo "$dependency found in ${unique_paths[@]}"
                  echo "module is ${lineArray[0]}"
+               else
+                 echo "$dependency NOT found in ${unique_paths[@]}"
                fi
              done
           done < dependencies.txt
