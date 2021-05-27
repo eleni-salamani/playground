@@ -38,17 +38,19 @@ jobs:
           echo "BEFORE"
           printf '%s\n' "${changed_files[@]}"
           count=0
+          array()
           while [ $count -lt $length ]
           do
               echo "$count"
               echo "${changed_files[$count]}"
+              array+=( "$changed_files[$count]" )
               changed_files[$count]=$(echo "$changed_files[$count]" | xargs -n1 dirname)
               count=$(( $count + 1 ))
           done
 
           echo "AFTER"
-          printf '%s\n' "${changed_files[@]}"
-          echo "${#changed_files[@]}"
+          printf '%s\n' "${array[@]}"
+          echo "${#array[@]}"
 
 #          array=()
 #          while IFS='' read -r $c; do
