@@ -32,6 +32,7 @@ jobs:
       - name: Parse changed files
         id: changeset
         run: |
+          array=()
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
               for changed_file in ${changed_files[@]}; do
                 echo "Do something with this ${changed_file}."
