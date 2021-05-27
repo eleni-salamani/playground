@@ -43,6 +43,7 @@ jobs:
           echo "checking array"
           echo $array
           cat dependencies.txt
+          echo "$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
 #          echo ${{ steps.files.outputs.all }}
 #          changes="'"${{ steps.files.outputs.all }}"'"
 #          echo "$changes"
