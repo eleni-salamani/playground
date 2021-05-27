@@ -32,9 +32,9 @@ jobs:
       - name: Parse changed files
         id: changeset
         run: |
-          echo ${{ steps.files.outputs.all }}
+          CHANGES=$(echo ${{ steps.files.outputs.all }})
           cat ${HOME}/files.json
-          for CHANGE in $(echo ${{ steps.files.outputs.all }})
+          for CHANGE in "${CHANGES[@]}"
           do
           (
             echo "CHANGE IS $CHANGE"
