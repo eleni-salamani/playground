@@ -36,12 +36,15 @@ jobs:
           length=${#changed_files[@]}
           echo "length is $length"
           count=0
+          array=()
           while [ $count -lt $length ]
           do
               echo "$count"
               echo "${changed_files[$count]}"
+              array[$count]=$(echo "$changed_file" | xargs -n1 dirname)
               count=$(( $count + 1 ))
           done
+          echo $array
 
 #          for i in "${!changed_files[@]}"; do
 #            printf "%s\t%s\n" "$i" "${changed_files[$i]}"
