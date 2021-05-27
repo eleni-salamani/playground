@@ -104,7 +104,7 @@ jobs:
           printf '%s\n' "${{ env.changed_modules }}"
 
       - name: Parse changed files
-        if: env.mode == "target"
+        if: env.mode == 'target'
         run: |
           echo ${{ env.mode }}
           printf '%s\n' "${{ env.changed_modules }}"
