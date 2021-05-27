@@ -35,6 +35,8 @@ jobs:
           readarray -t changed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
               for changed_file in ${changed_files[@]}; do
                 echo "Do something with this ${changed_file}."
+                path=$(echo "$changed_file" | xargs -n1 dirname)
+                echo "path IS $path"
               done
 #          echo ${{ steps.files.outputs.all }}
 #          changes="'"${{ steps.files.outputs.all }}"'"
