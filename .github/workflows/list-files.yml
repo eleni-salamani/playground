@@ -37,8 +37,6 @@ jobs:
                 echo "Do something with this ${changed_file}."
                 path=$(echo "$changed_file" | xargs -n1 dirname)
                 echo "path IS $path"
-#                root_path=$(echo "$path" | xargs -n1 dirname)
-#                echo "root_path IS $root_path"
               done
           cat dependencies.txt
 #          echo ${{ steps.files.outputs.all }}
@@ -56,4 +54,6 @@ jobs:
 #          done
 #          CHANGED_FILE=$(echo ${{ steps.files.outputs.all }})
 #          UNIQUE=($(printf "%s\n" "${owner[@]}" | sort -u | tr '\n' ' '))
+#                root_path=$(echo "$path" | xargs -n1 dirname)
+#                echo "root_path IS $root_path"
 
