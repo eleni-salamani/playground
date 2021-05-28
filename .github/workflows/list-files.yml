@@ -62,7 +62,8 @@ jobs:
           cat "${{ steps.changeset.outputs.changeset_log }}"
           changeset=$(cat "${{ steps.changeset.outputs.changeset_log }}")
           for change in ${changeset[@]}; do
-            echo "change is $change"
+            path="${change%/}"
+            echo "normalized path is $path"
           done
 
 
