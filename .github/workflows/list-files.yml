@@ -46,8 +46,12 @@ jobs:
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
             echo "Changes in shared directories found"
+            MY_STRING=$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)
+            MY_STRING="${MY_STRING//'%'/'%25'}"
+            MY_STRING="${MY_STRING//$'\n'/'%0A'}"
+            MY_STRING="${MY_STRING//$'\r'/'%0D'}"
             all_modules=($(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/))
-            echo ::set-output name=candidates::"${all_modules[@]}"
+            echo ::set-output name=candidates::"$MY_STRING"
           else
             echo "Changes in standalone modules found"
             echo ::set-output name=candidates::"${standalone_modules[@]}"
