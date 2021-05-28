@@ -45,33 +45,36 @@ jobs:
           done
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
-            echo ::set-output name=candidates::"$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)"
+            echo "Changes in shared directories found"
+            for directory in "$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)"; do
+              all_modules+=(${directory})
+            done
+            echo ::set-output name=candidates::"${all_modules[@]}"
           else
+            echo "Changes in standalone modules found"
             echo ::set-output name=candidates::"${standalone_modules[@]}"
           fi
 
-      - name: Parse changed files
-        run: |
-          echo "${{ steps.changeset.outputs.candidates }}"
-          printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
-          readarray -t changeset <<<"${{ steps.changeset.outputs.candidates }}"
-          for changed_module in "${changeset[@]}"; do
-              cd $changed_module
-              pwd
-              ls -ltr
-          done
-
-#      - name: Parse changed files
-#        if: steps.changeset.outputs.mode == 'target'
+#      - name: TF commands
 #        run: |
-#          echo ${{ steps.changeset.outputs.mode }}
-#          printf '%s\n' "${{ steps.changeset.outputs.standalone_modules }}"
-#
-#          for changed_module in "${{ steps.changeset.outputs.standalone_modules }}"; do
+#          echo "${{ steps.changeset.outputs.candidates }}"
+#          printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
+#          readarray -t changeset <<<"${{ steps.changeset.outputs.candidates }}"
+#          for changed_module in "${changeset[@]}"; do
 #              cd $changed_module
 #              pwd
 #              ls -ltr
 #          done
+
+      - name: tf commands
+        run: |
+          printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
+
+          for changed_module in "${{ steps.changeset.outputs.candidates }}"; do
+              cd $changed_module
+              pwd
+              ls -ltr
+          done
 
 #      - name: Parse changed files
 #        id: changeset
