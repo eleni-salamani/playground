@@ -46,12 +46,11 @@ jobs:
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
             echo "Changes in shared directories found"
-            MY_STRING=$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)
-            MY_STRING="${MY_STRING//'%'/'%25'}"
-            MY_STRING="${MY_STRING//$'\n'/'%0A'}"
-            MY_STRING="${MY_STRING//$'\r'/'%0D'}"
-            all_modules=($(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/))
-            echo ::set-output name=candidates::"$MY_STRING"
+            all_modules=$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)
+            all_modules="${all_modules//'%'/'%25'}"
+            all_modules="${all_modules//$'\n'/'%0A'}"
+            all_modules="${all_modules//$'\r'/'%0D'}"
+            echo ::set-output name=candidates::"$all_modules"
           else
             echo "Changes in standalone modules found"
             echo ::set-output name=candidates::"${standalone_modules[@]}"
@@ -61,7 +60,7 @@ jobs:
         run: |
           echo "${{ steps.changeset.outputs.candidates }}"
           printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
-          for changed_module in "$(echo ${{ steps.changeset.outputs.candidates }})"; do
+          for changed_module in $(echo "${{ steps.changeset.outputs.candidates }}"); do
             MODULE=${changed_module%/}
             cd $MODULE
             pwd
@@ -255,6 +254,7 @@ jobs:
 #               temp="${{ steps.changeset.outputs.candidates }}"
 #               changeset=(${temp// / })
 
+#               all_modules=($(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/))
 #               for directory in "$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)"; do
 #               all_modules+=(${directory})
 #               done
