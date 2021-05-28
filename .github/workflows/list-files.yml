@@ -59,7 +59,8 @@ jobs:
         run: |
           echo "${{ steps.changeset.outputs.candidates }}"
           printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
-          readarray -t changeset <<<"${{ steps.changeset.outputs.candidates }}"
+          temp="${{ steps.changeset.outputs.candidates }}"
+          changeset=(${temp// / })
           for changed_module in "${changeset[@]}"; do
               cd $changed_module
               pwd
