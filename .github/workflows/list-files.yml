@@ -60,6 +60,11 @@ jobs:
         run: |
           echo "${{ steps.changeset.outputs.changeset_log }}"
           cat "${{ steps.changeset.outputs.changeset_log }}"
+          changeset=$(cat "${{ steps.changeset.outputs.changeset_log }}")
+          for change in ${changeset[@]}; do
+            echo "change is $change"
+          done
+
 
 #      - name: tf commands
 #        run: |
