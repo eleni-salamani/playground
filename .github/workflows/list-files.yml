@@ -59,8 +59,7 @@ jobs:
         run: |
           echo "${{ steps.changeset.outputs.candidates }}"
           printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
-          temp="${{ steps.changeset.outputs.candidates }}"
-          changeset=(${temp// / })
+          changeset=(${{ steps.changeset.outputs.candidates }})
           for changed_module in "${changeset[@]}"; do
               cd $changed_module
               pwd
@@ -250,5 +249,8 @@ jobs:
 #               fi
 #
 #               echo ::set-output name=standalone_modules::"${standalone_modules[@]}"
+
+#               temp="${{ steps.changeset.outputs.candidates }}"
+#               changeset=(${temp// / })
 
 
