@@ -54,7 +54,8 @@ jobs:
       - name: Parse changed files
         run: |
           echo "${{ steps.changeset.outputs.candidates }}"
-          for changed_module in "${{ steps.changeset.outputs.candidates }}"; do
+          readarray -t changeset <<<"${{ steps.changeset.outputs.candidates }}"
+          for changed_module in "${changeset[@]}"; do
               cd $changed_module
               pwd
               ls -ltr
