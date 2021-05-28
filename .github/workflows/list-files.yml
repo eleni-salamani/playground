@@ -45,8 +45,7 @@ jobs:
           done
 
           if [[ "${#shared_modules[@]}" -gt 0 ]]; then
-            readarray -t all_modules <<<"$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)"
-            echo ::set-output name=candidates::"${all_modules[@]}"
+            echo ::set-output name=candidates::"$(ls -d -1 */ | grep -v repositories && ls -d -1 repositories/*/)"
           else
             echo ::set-output name=candidates::"${standalone_modules[@]}"
           fi
