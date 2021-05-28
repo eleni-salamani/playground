@@ -60,8 +60,8 @@ jobs:
         run: |
           echo "${{ steps.changeset.outputs.candidates }}"
           printf '%s\n' "${{ steps.changeset.outputs.candidates }}"
-          for changed_module in $(echo "${{ steps.changeset.outputs.candidates }}"); do
-            MODULE=${changed_module%/}
+          for changed_module in "$(echo ${{ steps.changeset.outputs.candidates }})"; do
+            MODULE="${changed_module%/}"
             cd $MODULE
             pwd
             ls -ltr
