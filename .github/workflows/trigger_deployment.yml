@@ -26,6 +26,7 @@ jobs:
         with:
           token: "${{ env.GITHUB_TOKEN }}"
           environment: ${{ env.ENVIRONMENT }}
+          ref: ${{ github.ref }}
           
       - name: check deployment id
         if: always()
