@@ -11,7 +11,7 @@ jobs:
     name: pr_merged
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.EL_B2B_BOT_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
       ENVIRONMENT: "staging"
 
     if: github.event.pull_request.merged == true
