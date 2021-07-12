@@ -19,14 +19,27 @@ jobs:
     steps:
       - name: Test env name has been set
         run: echo "${{ env.ENVIRONMENT }}"
-
-      - uses: chrnorm/deployment-action@releases/v1
-        name: Create GitHub deployment
+      
+      - name: Create GitHub deployment
         id: deployment
-        with:
-          token: "${{ env.GITHUB_TOKEN }}"
-          environment: ${{ env.ENVIRONMENT }}
-          ref: ${{ github.sha }}
+        run: |
+          curl -X POST 'https://api.github.com/repos/eleni-salamani/playground/deployments' \ 
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.BOT_TOKEN }} \
+           --data '{"environment": "${{ env.ENVIRONMENT }}", "ref": "${{ ${{ github.sha }}"}' >> curl_output.txt
+           cat ${curl_output}
+           deployment_id=$(cat curl_output.txt | jq '.id')
+           echo ${deployment_id}
+           echo ::set-output name=deployment_id::$(echo $deployment_id)
+       
+
+#       - uses: chrnorm/deployment-action@releases/v1
+#         name: Create GitHub deployment
+#         id: deployment
+#         with:
+#           token: "${{ env.GITHUB_TOKEN }}"
+#           environment: ${{ env.ENVIRONMENT }}
+#           ref: ${{ github.sha }}
           
       - name: check deployment id
         if: always()
