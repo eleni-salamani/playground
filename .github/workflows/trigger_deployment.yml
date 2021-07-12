@@ -26,3 +26,6 @@ jobs:
         with:
           token: "${{ env.GITHUB_TOKEN }}"
           environment: ${{ env.ENVIRONMENT }}
+          
+      - name: check deployment id
+        run: echo "${{ steps.deployment.outputs.deployment_id }}"
