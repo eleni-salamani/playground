@@ -23,7 +23,7 @@ jobs:
       - name: Create GitHub deployment
         id: deployment
         run: |
-          curl -X POST https://api.github.com/repos/eleni-salamani/playground/deployments \ 
+          curl -X POST https://api.github.com/repos/eleni-salamani/playground/deployments \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.BOT_TOKEN }} \
            --data '{"environment": "${{ env.ENVIRONMENT }}", "ref": "${{ github.sha }}"}' >> curl_output.txt
