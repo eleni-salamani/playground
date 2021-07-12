@@ -28,4 +28,5 @@ jobs:
           environment: ${{ env.ENVIRONMENT }}
           
       - name: check deployment id
+        if: always()
         run: echo "${{ steps.deployment.outputs.deployment_id }}"
