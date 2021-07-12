@@ -1,0 +1,14 @@
+name: On deployment event - trigger some action
+
+on: [deployment]
+
+jobs:
+  check_deployment:
+    name: deployment_created
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+
+    steps:
+      - name: Test deployment details
+        run: echo "${{ github.event.environment }}"
