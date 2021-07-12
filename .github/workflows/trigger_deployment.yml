@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-      ENVIRONMENT: "staging"
+      ENVIRONMENT: staging
 
     if: github.event.pull_request.merged == true
 
