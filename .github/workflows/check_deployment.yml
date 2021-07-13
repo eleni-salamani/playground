@@ -11,4 +11,8 @@ jobs:
 
     steps:
       - name: Test deployment details
-        run: echo "${{ github.event.environment }}"
+        run: |
+          echo "deployment id"
+          echo "${{ github.event.deployment.id }}"
+          echo "environment"
+          echo "${{ github.event.deployment.environment }}"
