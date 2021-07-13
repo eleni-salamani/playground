@@ -1,8 +1,6 @@
 name: On deployment event - trigger some action
 
-on:
-  deployment:
-    types: [created]
+on: [deployment]
 
 jobs:
   check_deployment:
