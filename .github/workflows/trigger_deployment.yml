@@ -25,12 +25,12 @@ jobs:
         run: |
           curl -X POST https://api.github.com/repos/eleni-salamani/playground/deployments \
           -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u 'Authorization: Basic ZWxlbmktc2FsYW1hbmk6MGRhOGRmYTFmMjhmMjRhNjUzM2JiYWIyMDhhOTQ1ZDE4MzJkN2RjNg==' \
+          -H 'Authorization: Basic ZWxlbmktc2FsYW1hbmk6MGRhOGRmYTFmMjhmMjRhNjUzM2JiYWIyMDhhOTQ1ZDE4MzJkN2RjNg==' \
           --data '{"environment": "${{ env.ENVIRONMENT }}", "ref": "${{ github.sha }}"}' -o /tmp/curl_output.txt
-           cat /tmp/curl_output.txt
-           deployment_id=$(cat /tmp/curl_output.txt | jq '.id')
-           echo $deployment_id
-           echo ::set-output name=deployment_id::$(echo $deployment_id)
+          cat /tmp/curl_output.txt
+          deployment_id=$(cat /tmp/curl_output.txt | jq '.id')
+          echo $deployment_id
+          echo ::set-output name=deployment_id::$(echo $deployment_id)
        
 
 #       - uses: chrnorm/deployment-action@releases/v1
