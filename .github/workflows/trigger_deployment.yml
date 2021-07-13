@@ -26,7 +26,7 @@ jobs:
           curl -X POST https://api.github.com/repos/eleni-salamani/playground/deployments \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u eleni-salamani:${{ secrets.ELENA_TOKEN }} \
-          --data '{"environment": "${{ env.ENVIRONMENT }}", "ref": "${{ github.sha }}", "auto_merge": "false"}' -o /tmp/curl_output.txt
+          --data '{"environment": "${{ env.ENVIRONMENT }}", "ref": "${{ github.sha }}", "auto_merge": false}' -o /tmp/curl_output.txt
           cat /tmp/curl_output.txt
           deployment_id=$(cat /tmp/curl_output.txt | jq '.id')
           echo $deployment_id
