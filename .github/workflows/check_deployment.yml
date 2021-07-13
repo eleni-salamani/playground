@@ -16,3 +16,10 @@ jobs:
           echo "${{ github.event.deployment.id }}"
           echo "environment"
           echo "${{ github.event.deployment.environment }}"
+          
+      - name: Set deployment status
+        run: |
+          curl -X POST https://api.github.com/repos/eleni-salamani/playground/deployments/${{ github.event.deployment.id }}/statuses \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u eleni-salamani:${{ secrets.ELENA_TOKEN }} \
+          --data '{"environment": "${{ github.event.deployment.environment }}", "state": "success"}'
